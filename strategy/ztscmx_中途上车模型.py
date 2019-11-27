@@ -1,10 +1,11 @@
 # 中途上车模型
 # https://www.imaibo.net/viewpoint/detail/3053606?share_uid=4570952
 
+num = 5
 basePx = 100.0
 percentSell = 5 / 100
-percnetBuy = 2.5 / 100
-num = 5
+percentBuy = percentSell * 2 / (num - 1)  # 个人臆测了这个算式.
+percentBuy = 2.5 / 100
 money = 100 * 10000
 
 
@@ -24,7 +25,7 @@ def adbf(f: float, sign: bool = False, aD: int = 0, bF: int = 6):
 
 def stepPx(stepIdx):
     assert (1 <= stepIdx and stepIdx <= num)
-    return basePx * (1 + percnetBuy * (stepIdx - 1))
+    return basePx * (1 + percentBuy * (stepIdx - 1))
 
 
 def stepPxSell(stepIdx):
@@ -50,14 +51,13 @@ def showStep(showDetail: bool = True):
             data = stepInfo(idx, at)
             percentSum += data[2]
             if showDetail:
-                print(
-                    '[',
-                    adbf(data[0], False, 3, 4),
-                    adbf(data[1], False, 3, 4),
-                    adbf(data[2], True, 0, 4),
-                    ']',
-                    sep=',',
-                    end=',')
+                print('[',
+                      adbf(data[0], False, 3, 4),
+                      adbf(data[1], False, 3, 4),
+                      adbf(data[2], True, 0, 4),
+                      ']',
+                      sep=',',
+                      end=',')
         percentAvg1 = percentSum / at
         percentAvg2 = percentSum / num
         print('{', '%+.4f' % percentAvg1, '%+.4f' % percentAvg2, '}', sep=',')
