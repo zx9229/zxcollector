@@ -6,7 +6,7 @@
 namespace zxt
 {
     /*
-    int array[] = { 1,2,3,4 };
+    int array[] = { 1, 2, 3, 4 };
     std::string content = zxt::join(array, ",");
     */
     template<typename Container>
@@ -21,7 +21,27 @@ namespace zxt
         });
         return oss.str();
     }
-
+    /*
+    int array[] = { 1, 2, 3, 4 };
+    std::string content = zxt::join<int>(array, ",");
+    */
+    template<typename Item, typename Container>
+    std::string join(const Container& container, const std::string& sep)
+    {
+        bool is_first = true;
+        std::ostringstream oss;
+        std::for_each(std::begin(container), std::end(container),
+            [&oss, &is_first, &sep](const Item& item) mutable {
+            oss << (is_first ? "" : sep) << item;
+            is_first = false;
+        });
+        return oss.str();
+    }
+    /*
+    std::string filename = "file.dat";
+    std::string content;
+    zxt::filename2content(filename, content);
+    */
     static void filename2content(const std::string& filename, std::string& content)
     {
         std::copy(std::istreambuf_iterator<char>(std::ifstream(filename, std::ios_base::in | std::ios_base::binary).rdbuf()), std::istreambuf_iterator<char>(), std::back_inserter(content));
