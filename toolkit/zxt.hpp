@@ -47,3 +47,25 @@ namespace zxt
         std::copy(std::istreambuf_iterator<char>(std::ifstream(filename, std::ios_base::in | std::ios_base::binary).rdbuf()), std::istreambuf_iterator<char>(), std::back_inserter(content));
     }
 }
+
+namespace zxt
+{
+    template<typename Type>
+    std::string to_string(Type _val)
+    {
+        return std::to_string(_val);
+    }
+    std::string to_string(char _val, bool isNum = false)
+    {
+        //basic_string(size_type _Count, _Elem _Ch)
+        return isNum ? std::to_string(int(_val)) : std::string(1, _val);
+    }
+    std::string to_string(const char* _val)
+    {
+        return (nullptr == _val) ? "" : _val;
+    }
+    std::string to_string(const std::string& _val)
+    {
+        return _val;
+    }
+};
